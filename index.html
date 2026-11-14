@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Board Games</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;padding:22px;
+ background:#111827;color:white;
+ font-family:Arial,sans-serif;
+}
+h1{text-align:center;margin:18px 0 5px}
+.sub{text-align:center;color:#9ca3af;margin-bottom:25px}
+.card{
+ background:#1f2937;border:1px solid #374151;
+ border-radius:18px;padding:18px;margin-bottom:13px;
+}
+.game{display:flex;align-items:center;gap:14px}
+.emoji{font-size:36px}
+.info{flex:1}
+.name{font-size:18px;font-weight:bold}
+.desc{font-size:12px;color:#9ca3af;margin-top:5px}
+.tag{font-size:11px;color:#60a5fa;margin-top:7px}
+button{
+ width:100%;padding:15px;border:0;border-radius:12px;
+ background:#3b82f6;color:white;font-size:16px;
+ font-weight:bold;margin-top:18px;
+}
+button:active{opacity:.7}
+input{
+ width:100%;padding:15px;border:1px solid #4b5563;
+ border-radius:12px;background:#374151;color:white;
+ font-size:17px;text-align:center;margin-top:12px;
+}
+#message{text-align:center;color:#fca5a5;margin-top:12px}
+</style>
+</head>
+<body>
+
+<h1>🎲 Board Games</h1>
+<div class="sub">Настольные игры с друзьями</div>
+
+<div class="card">
+ <div class="game">
+  <div class="emoji">🕵️</div>
+  <div class="info">
+   <div class="name">Шпион</div>
+   <div class="desc">Найди шпиона среди друзей</div>
+   <div class="tag">● Доступна</div>
+  </div>
+ </div>
+ <input id="code" maxlength="5" placeholder="КОД КОМНАТЫ">
+ <button onclick="join()">🎮 Открыть игру</button>
+ <div id="message"></div>
+</div>
+
+<div class="card">
+ <div class="game">
+  <div class="emoji">🔫</div>
+  <div class="info">
+   <div class="name">Мафия</div>
+   <div class="desc">Мирные жители против мафии</div>
+   <div class="tag">Скоро</div>
+  </div>
+ </div>
+</div>
+
+<div class="card">
+ <div class="game">
+  <div class="emoji">🏚️</div>
+  <div class="info">
+   <div class="name">Бункер</div>
+   <div class="desc">Кто достоин попасть в убежище?</div>
+   <div class="tag">Скоро</div>
+  </div>
+ </div>
+</div>
+
+<div class="card">
+ <div class="game">
+  <div class="emoji">🎭</div>
+  <div class="info">
+   <div class="name">Кто я?</div>
+   <div class="desc">Угадай своего персонажа</div>
+   <div class="tag">Скоро</div>
+  </div>
+ </div>
+</div>
+
+<div class="card">
+ <div class="game">
+  <div class="emoji">✊</div>
+  <div class="info">
+   <div class="name">Сопротивление</div>
+   <div class="desc">Найди предателей среди команды</div>
+   <div class="tag">Скоро</div>
+  </div>
+ </div>
+</div>
+
+<script>
+const tg=window.Telegram.WebApp;
+tg.ready();
+tg.expand();
+
+function join(){
+ const code=document.getElementById("code").value
+ .trim().toUpperCase();
+
+ if(!/^[A-Z0-9]{5}$/.test(code)){
+  document.getElementById("message").textContent=
+  "Введи правильный код из 5 символов";
+  return;
+ }
+
+ if(!tg.initData){
+  document.getElementById("message").textContent=
+  "Открой приложение через Telegram";
+  return;
+ }
+
+ tg.sendData(JSON.stringify({
+  action:"start_spy",
+  code:code
+ }));
+}
+</script>
+
+</body>
+</html>
